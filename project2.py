@@ -15,8 +15,7 @@ def AU(group):
 def SC(group):
     return np.sum(np.where(group>0,1,0),axis=0)
 
-def AV(group):
-    threshold =4
+def AV(group, threshold=4):
     return np.sum(np.where(group>=threshold,group,0),axis=0)
 
 def BC(group):
@@ -26,14 +25,16 @@ def BC(group):
     return data.values
 
 def CR(group):
+    user_num = group.shape[0]
     movie_num = group.shape[1]
     result = np.zeros(movie_num)
     for i in range(movie_num):
         for j in range(i+1, movie_num):
-            temp = np.sum(np.where(group[:, i] > group[:, j], 1, np.where(group[:, i] == group[:, j], 0, -1)))
-            result[i]+= np.where(temp>0,1,np.where(temp==0,0,-1))
-            temp = np.sum(np.where(group[:, j] > group[:, i], 1, np.where(group[:, j] == group[:, i], 0, -1)))
-            result[j]+= np.where(temp>0,1,np.where(temp==0,0,-1))
+            beat_num = (group[:, i] > group[:, j]).sum()
+            lose_num = (group[:, i] < group[:, j]).sum()
+            temp = np.where(beat_num-lose_num > 0 , 1, np.where(beat_num==lose_num, 0, -1))
+            result[i]+= temp
+            result[j]+= -temp
     return result
 
 
@@ -72,9 +73,12 @@ result = {
 for group_id, group in Groups.items():
     for alg in [Avg, AU, SC, AV, BC, CR]:
         scores = alg(group)
-        result[alg.__name__][group_id] = top_sort(scores) + 1
+        moives = top_sort(scores) + 1
+        result[alg.__name__][group_id] = moives
+        print(alg.__name__)
+        print(f" Group {group_id}: Recommend: {moives}")
 
 for alg, groups in result.items():
     print(alg.__name__)
-    for group_id, top_items in groups.items():
-        print(f" Group {group_id}: Recommend: {top_items}")
+    for group_id, movies in groups.items():
+        print(f" Group {group_id}: Recommend: {movies}")
