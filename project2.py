@@ -88,27 +88,3 @@ for group_id in range(1,4):
     print(f"\nGroup {group_id}")
     for alg_id, alg in enumerate(algorithms):
         print(f"{alg}: {table[group_id, alg_id]}")
-
-for row in ratings.itertuples():
-    user_movie[row.User - 1, row.Movie - 1] = row.Rate
-
-km = KMeans(n_clusters=3, random_state=4, n_init='auto')
-sep_group = km.fit_predict(user_movie)
-
-# 그룹화
-Groups = {i+1 : user_movie[sep_group == i] for i in range(3)}
-
-# 그룹 정보 출력
-np.set_printoptions(threshold=np.inf)
-for num, data in Groups.items():
-    print(f"Group {num} has {data.shape[0]} users.")
-
-# 계산 실행
-table = compute(Groups)
-
-# 결과 출력
-algorithms = ['Avg', 'AU', 'SC', 'AV', 'BC', 'CR']
-for group_id in range(1,4):
-    print(f"\nGroup {group_id}")
-    for alg_id, alg in enumerate(algorithms):
-        print(f"{alg}: {table[group_id, alg_id]}")
