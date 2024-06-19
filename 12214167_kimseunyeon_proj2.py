@@ -75,7 +75,6 @@ sep_group = km.fit_predict(user_movie)
 Groups = {i : user_movie[sep_group == i] for i in range(3)}
 
 # 그룹 정보 출력
-np.set_printoptions(threshold=np.inf)
 for num, data in Groups.items():
     print(f"Group {num} has {data.shape[0]} users.")
 
