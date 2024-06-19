@@ -36,8 +36,9 @@ def CR(group):
     result = np.zeros(movie_num)
     for i in range(movie_num):
         for j in range(i + 1, movie_num):
-            beat_num = (group[:, i] > group[:, j]).sum()
-            lose_num = (group[:, i] < group[:, j]).sum()
+            a = np.subtract(group[:, i], group[:, j])
+            beat_num = (a > 0).sum()
+            lose_num = (a < 0).sum()
             temp = np.sign(beat_num - lose_num)
             result[i] += temp
             result[j] -= temp
@@ -53,7 +54,7 @@ def compute(groups):
             scores = alg(group)
             movies = top_sort(scores) + 1
             result[group_id, idx] = movies
-            print(f"\nGroup{group_id}, {alg.__name__} computation complete")
+            print(f"\nGroup{group_id}, {alg.__name__} computation complete ")
             
     return result
 
