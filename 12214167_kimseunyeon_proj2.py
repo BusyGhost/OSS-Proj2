@@ -83,7 +83,7 @@ table = compute(Groups)
 
 # 결과 출력
 algorithms = ['Avg', 'AU', 'SC', 'AV', 'BC', 'CR']
-for group_id in range(1,4):
+for group_id in range(0,3):
     print(f"\nGroup {group_id}")
     for alg_id, alg in enumerate(algorithms):
         print(f"{alg}: {table[group_id, alg_id]}")
