@@ -53,7 +53,7 @@ def compute(groups):
             scores = alg(group)
             movies = top_sort(scores) + 1
             result[group_id, idx] = movies
-            print(f"\nGroup{group_id}, {alg.__name__} computation complete\n Recommend: {movies}")
+            print(f"\nGroup{group_id}, {alg.__name__} computation complete")
             
     return result
 
