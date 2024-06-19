@@ -82,6 +82,7 @@ for num, data in Groups.items():
 table = compute(Groups)
 
 # 결과 출력
+print("================result================")
 algorithms = ['Avg', 'AU', 'SC', 'AV', 'BC', 'CR']
 for group_id in range(0,3):
     print(f"\nGroup {group_id}")
